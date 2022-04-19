@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/Knights-Tour/static/css/main.073c9b0a.css",
-    "main.js": "/Knights-Tour/static/js/main.16cf3256.js",
+    "main.css": "/Knights-Tour/static/css/main.9c5ca094.css",
+    "main.js": "/Knights-Tour/static/js/main.39ff172f.js",
     "static/js/787.ee87fba6.chunk.js": "/Knights-Tour/static/js/787.ee87fba6.chunk.js",
-    "static/media/logo.svg": "/Knights-Tour/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/Knights-Tour/index.html",
-    "main.073c9b0a.css.map": "/Knights-Tour/static/css/main.073c9b0a.css.map",
-    "main.16cf3256.js.map": "/Knights-Tour/static/js/main.16cf3256.js.map",
+    "main.9c5ca094.css.map": "/Knights-Tour/static/css/main.9c5ca094.css.map",
+    "main.39ff172f.js.map": "/Knights-Tour/static/js/main.39ff172f.js.map",
     "787.ee87fba6.chunk.js.map": "/Knights-Tour/static/js/787.ee87fba6.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.16cf3256.js"
+    "static/css/main.9c5ca094.css",
+    "static/js/main.39ff172f.js"
   ]
 }
