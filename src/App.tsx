@@ -1,12 +1,18 @@
 import React from "react";
 import "./App.css";
+// Components
+import Board from "./components/Board/Board";
 
 function App() {
   return (
-    <div>
-      <h1>Knight's Tour</h1>
-      <p>jalsjdflajs</p>
-    </div>
+    <main className='main-page'>
+      <div>
+        <h1>Knight's Tour</h1>
+      </div>
+      <div className='board-area'>
+        <Board />
+      </div>
+    </main>
   );
 }
 

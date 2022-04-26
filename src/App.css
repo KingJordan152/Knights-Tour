@@ -1,3 +1,26 @@
-body {
-  background-color: #f8f0e4;
+:root {
+  --background-color: #f8f0e4;
+  --light-square-color: #fbd5a6;
+  --dark-square-color: #d3aa73;
+}
+
+html,
+body,
+#root {
+  background-color: var(--background-color);
+  overflow: hidden;
+  height: 100%;
+}
+
+.main-page {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  height: 95%; /* Anything higher than this value causes the screen to overflow in the x-direction. */
+  padding: 20px;
+}
+
+.board-area {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertically centers the board */
 }

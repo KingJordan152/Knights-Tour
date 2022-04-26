@@ -1,0 +1,11 @@
+.board-container {
+  display: grid;
+  grid-template-columns: repeat(8, 100px);
+  grid-template-rows: repeat(8, 100px);
+  justify-content: center;
+  align-content: center;
+  border: 10px solid black;
+  border-radius: 25px;
+  overflow: hidden;
+  background-color: var(--light-square-color);
+}
