@@ -1,0 +1,22 @@
+.knight-wrapper {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.knight-piece {
+  height: 80px;
+  width: 80px;
+  transition: all 0.3s;
+  transform: scale(1);
+}
+
+.knight-piece:hover {
+  cursor: grab;
+}
+
+.knight-piece:active {
+  transform: scale(1.15);
+}

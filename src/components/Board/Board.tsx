@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
-import "./Board.modules.css";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
-/* interface BoardProps {
-  
-} */
+import { useEffect, useState, useCallback } from "react";
+import "./Board.css";
+import Knight from "../Knight/Knight";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const Board = () => {
-  /* interface Square {
+  /**
+   * Data pertaining to each square on the chess board.
+   */
+  interface Square {
+    /** Unique identifier for each square (i.e. "E5" or "A1"). */
+    id: string;
+    /** Signifies whether the knight is positioned at the square. */
     hasKnight: Boolean;
-  } */
+  }
 
-  const [squares, setSquares] = useState<String[][]>([]);
+  const [squares, setSquares] = useState<Square[][]>([]);
   const ROWS = 8;
   const COLUMNS = 8;
   const lightSquareColor: String = "#FBD5A6";
@@ -23,19 +26,28 @@ const Board = () => {
    */
   useEffect((): void => {
     if (squares.length === 0) {
-      let tempSquares: String[][] = [...squares];
+      let tempSquares: Square[][] = [...squares]; // Temporary copy of the squares state.
+      const randRow: number = getRandomInt(0, ROWS - 1); // Used for placing the knight in a random location.
+      const randCol: number = getRandomInt(0, COLUMNS - 1); // Used for placing the knight in a random location.
 
       for (let row: number = 0; row < ROWS; row++) {
         tempSquares.push([]); // Push a new row.
         for (let col: number = 0; col < COLUMNS; col++) {
           let colLetter: String = String.fromCharCode(col + 65); // Determines the letter that corresponds to the column index.
-          tempSquares[row].push(`${colLetter}${row + 1}`); // Push a new column with this letter-number naming convention.
+          tempSquares[row].push({
+            id: `${colLetter}${ROWS - row}`,
+            hasKnight: row === randRow && col === randCol,
+          }); // Push a new column to the array.
         }
       }
 
       setSquares(tempSquares);
     }
   }, [squares]);
+
+  const getRandomInt = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
 
   /**
    * Gives the board its alternating color pallet for each square.
@@ -51,21 +63,64 @@ const Board = () => {
     }
   };
 
+  /**
+   * Updates the position of the knight within the squares array whenever it is
+   * moved to a different position. This is accomplished by changing the "hasKnight"
+   * field of the square.
+   */
+  const handleKnightDragEnd = useCallback(
+    (result: any) => {
+      let tempSquares: Square[][] = [...squares]; // Temporary copy of the squares state.
+      const destination: string = result.destination?.droppableId; // Square where the knight was placed.
+      const source: string = result.source?.droppableId; // Square that the knight came from.
+
+      // Must iterate through the entire array to find the square the knight was repositioned to.
+      // Should technically be O(1) since the 2D array should almost always be 8x8 (or at least known).
+      for (let row of tempSquares) {
+        for (let col of row) {
+          /* 
+            Before changing the placement of the knight, ensure that:
+            1) The destination is not the same as the source.
+            2) The destination is not outside the board (i.e. invalid square).
+            3) The source is not outside the board (i.e. invalid square).
+            Failure to meet any of these conditions will cause the knight to disappear and become unusable.
+          */
+          if (destination !== source && destination && source) {
+            if (col.id === destination) {
+              col.hasKnight = true;
+            }
+
+            if (col.id === source) {
+              col.hasKnight = false;
+            }
+          }
+        }
+      }
+
+      setSquares(tempSquares);
+    },
+    [squares]
+  );
+
   return (
-    <DragDropContext onDragEnd={() => console.log("balls")}>
+    <DragDropContext onDragEnd={handleKnightDragEnd}>
       <div>
         <div className='board-container'>
           {squares.map((rowItem, row) => {
             return rowItem.map((square, col) => (
-              <Droppable key={row + col} droppableId={`${square}`}>
+              <Droppable key={row + col} droppableId={square.id}>
                 {(provided) => (
                   <div
+                    className='square'
                     style={{
                       backgroundColor: `${handleSquareColor(row, col)}`,
                     }}
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                  ></div>
+                  >
+                    {square.hasKnight && <Knight />}
+                    {provided.placeholder}
+                  </div>
                 )}
               </Droppable>
             ));
